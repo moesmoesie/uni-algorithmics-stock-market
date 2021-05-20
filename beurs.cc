@@ -59,12 +59,38 @@ void Beurs::drukAfInvoer ()
 
 //****************************************************************************
 
-double Beurs::winst(int aandeel, int aankoopDag){
-    double inkoopPrijs = aandelen[MaxN][Maxtw];
-    double tempWinst = lowest_double;
-    for(int dag = aankoopDag; dag < MaxTw; dag++){
+pair<int, double> Beurs::AandeelMaxWinst(int aandeel, int aankoopDag){
+    double tempWinst;
+    int verkoopDag = -1;
+    double winst = lowest_double;
 
+    for(int dag = aankoopDag+1; dag < MaxTw; dag++){
+        tempWinst = berekenWinst(aandeel, aankoopDag, dag);
+        if(tempWinst > winst){
+            winst = tempWinst;
+            verkoopDag = dag;
+        }
     }
+    pair <int, double> maxWinst = make_pair(verkoopDag, winst);
+    return maxWinst;
+}
+
+//****************************************************************************
+
+double Beurs::berekenWinst(int aandeel, int aankoopDag, int verkoopDag){
+    provisie_kosten = aandelen[aandeel][aankoopDag]*(provisie/100);
+    double inkoopPrijs = aandelen[aandeel][aankoopDag]+provisie;
+    double verkoopPrijs = aandelen[aandeel][verkoopDag]-provisie;
+    double totale_Rente = 0;
+    int winst;
+
+    for(int dag = aankoopDag; aankoopDag < verkoopDag; aankoopDag++){
+        double rente_percentage = rente_percentages[dag];
+        totale_Rente += inkoopPrijs*(rente_percentage/100);
+    }
+
+    winst = verkoopPrijs-inkoopPrijs+totale_Rente;
+    return winst;
 }
 
 //****************************************************************************
@@ -75,7 +101,7 @@ double Beurs::bepaalMaxBedragBU
   // TODO: implementeer deze memberfunctie
   for(int aandeel = 0; aandeel < MaxN; aandeel++){
       for(int dag = 0; dag < MaxTw; dag++){
-          winst()
+          cout << "haha" << endl;
       }
   }
 
