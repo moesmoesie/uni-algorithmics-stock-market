@@ -86,6 +86,14 @@ class Beurs
     //   bij deze instantie.
     void drukAfTransacties (vector <vector <pair <bool,int> > > transacties);
 
+
+    // Deze functie berekend de winst voor een gegeven aandeel
+    // Hierbij kijken we naar:
+    // * wanneer het aandeel is gekocht,
+    // * wanneer het aandeel wordt verkocht
+    // * En de rente voor zo'n aandeel
+    int winst(aandelenTabel[MaxN][MaxTw]);
+
   private:
     // TODO: uw eigen memberfuncties en -variabelen
 
