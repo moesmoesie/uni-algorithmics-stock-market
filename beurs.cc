@@ -48,12 +48,14 @@ void Beurs::drukAfInvoer ()
   }
   cout << "Rente Percentage" << endl;
 
-  for(int i=0;i<tw;i++){
+  for(int i=0;i<=tw;i++){
     cout << "Dag " << i  << "\t";
     for(int j=0;j<n;j++){
         cout << aandelen[i][j] << "\t \t";      
     }    
-    cout << rente_percentages[i] << endl;
+    if(i != tw){
+      cout << rente_percentages[i] << endl;
+    }
   }
 }  // drukAfInvoer
 
@@ -69,13 +71,43 @@ double Beurs::bepaalMaxBedragBU
 }  // bepaalMaxBedragBU
 
 //****************************************************************************
+double Beurs::nieuweTotaleBedrag(int huidigeAandelen, int nieuweAandelen,int dag){
+  bitset<MaxN> a1 = bitset<MaxN>(huidigeAandelen);
+  bitset<MaxN> a2 = bitset<MaxN>(nieuweAandelen);
+  double bedrag = 0;
+  for(int i=0;i<n;i++){
+    if(a1[i] != a2[i]){
+      if(a2[i] == 1){
+        double extra = 1 + (provisie / 100);
+        bedrag -= aandelen[dag][i] * extra;
+      }else{
+        bedrag += aandelen[dag][i] * (1 - (provisie / 100));
+      }
+    }
+  }
+  return bedrag;
+}
 
-double Beurs::bepaalMaxBedragRec (bool memo)
-{
-  // TODO: implementeer deze memberfunctie
+double Beurs::bepaalMaxBedragRecHelper(bool memo,double huidigBedrag,int huidigeAandelen,int dag){
+  if(dag == tw){
+    return huidigBedrag + nieuweTotaleBedrag(huidigeAandelen,0,tw);
+  }
+  double besteBedrag = huidigBedrag;
+  for(int i=0;i<pow(2,n)-1;i++){
+    double bedrag = nieuweTotaleBedrag(huidigeAandelen,i,dag) + huidigBedrag;
+    bedrag *= 1 + (rente_percentages[dag] / 100);
+    if(bedrag >= 0){
+      double nieuweTotaalBedrag = bepaalMaxBedragRecHelper(memo,bedrag,i,dag + 1);
+      if(nieuweTotaalBedrag > besteBedrag){
+        besteBedrag = nieuweTotaalBedrag;
+      }
+    }
+  }
+  return besteBedrag;
+}
 
-  return 0.0;
-
+double Beurs::bepaalMaxBedragRec (bool memo){
+  return bepaalMaxBedragRecHelper(memo,b0,0,0);
 }  // bepaalMaxBedragRec (memo)
 
 //****************************************************************************

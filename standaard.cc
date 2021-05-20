@@ -60,3 +60,10 @@ void schrijfDouble (double getal, int precisie, bool metEndln)
 
 }  // schrijfDouble
 
+int pow(int getal, int macht){
+  int amount = getal;
+  for(int i=1;i< macht;i++){
+      amount *= getal;
+  }
+  return amount;
+}

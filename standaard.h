@@ -26,5 +26,9 @@ double randomDouble (double min, double max);
 // (al dan niet met endln erachter).
 void schrijfDouble (double getal, int precisie, bool metEndln);
 
+//Return 'getal' tot de macht 'macht'
+int pow (int getal, int macht);
+
+
 #endif
 
