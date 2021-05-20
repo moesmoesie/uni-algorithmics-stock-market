@@ -92,7 +92,7 @@ class Beurs
     // * wanneer het aandeel is gekocht,
     // * wanneer het aandeel wordt verkocht
     // * En de rente voor zo'n aandeel
-    int winst(aandelenTabel[MaxN][MaxTw]);
+    double winst(int aandeel, int aankoopDag);
 
   private:
     // TODO: uw eigen memberfuncties en -variabelen

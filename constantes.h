@@ -6,6 +6,7 @@
 const int MaxTw = 100;
 const int MaxN = 8;
 const int MaxAs = 256;     // 2^{MaxN}, het maximum aantal bitstrings a
+constexpr double lowest_double = std::numeric_limits<double>::lowest();
 
 #endif
 

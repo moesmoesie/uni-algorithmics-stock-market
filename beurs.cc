@@ -59,10 +59,25 @@ void Beurs::drukAfInvoer ()
 
 //****************************************************************************
 
+double Beurs::winst(int aandeel, int aankoopDag){
+    double inkoopPrijs = aandelen[MaxN][Maxtw];
+    double tempWinst = lowest_double;
+    for(int dag = aankoopDag; dag < MaxTw; dag++){
+
+    }
+}
+
+//****************************************************************************
+
 double Beurs::bepaalMaxBedragBU
          (vector <vector <pair <bool,int> > > &transacties)
 {
   // TODO: implementeer deze memberfunctie
+  for(int aandeel = 0; aandeel < MaxN; aandeel++){
+      for(int dag = 0; dag < MaxTw; dag++){
+          winst()
+      }
+  }
 
   return 0.0;
 
