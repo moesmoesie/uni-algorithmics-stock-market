@@ -89,6 +89,7 @@ double Beurs::nieuweTotaleBedrag(int huidigeAandelen, int nieuweAandelen,int dag
 }
 
 double Beurs::bepaalMaxBedragRecHelper(int huidigeAandelen,int dag){
+  y+=1;
   if(dag == 0){
     double bedrag = b0 + nieuweTotaleBedrag(0,huidigeAandelen,dag);
     if (bedrag < 0){
@@ -114,13 +115,49 @@ double Beurs::bepaalMaxBedragRecHelper(int huidigeAandelen,int dag){
   }
   return besteBedrag;
 }
+double Beurs::bepaalMaxBedragRecMemoHelper(int huidigeAandelen,int dag){  
+  y+=1;
+  if(hulpTabel[dag][huidigeAandelen] < 0){
+    if(dag == 0){
+      double bedrag = b0 + nieuweTotaleBedrag(0,huidigeAandelen,dag);
+      if (bedrag >= 0){
+        hulpTabel[dag][huidigeAandelen] = bedrag;
+      }
+    }else{
+    for(int i=0;i<=pow(2,n)-1;i++){
+      double bedrag = bepaalMaxBedragRecMemoHelper(i, dag - 1);
+      if(bedrag != -1){
+        bedrag = krijgBedragPlusRente(bedrag,dag-1);
+        bedrag+= nieuweTotaleBedrag(i,huidigeAandelen,dag);
+        if(bedrag > hulpTabel[dag][huidigeAandelen]){
+            hulpTabel[dag][huidigeAandelen] = bedrag;
+        }
+      }
+    }
+    }
+  }
+  return hulpTabel[dag][huidigeAandelen];
+}
 
 double Beurs::krijgBedragPlusRente(double bedrag, int dag){
   return bedrag * ((rente_percentages[dag]/100) + 1);
 }
 
 double Beurs::bepaalMaxBedragRec (bool memo){
-  return bepaalMaxBedragRecHelper(0,tw);
+  double value;
+  y = 0;
+  if(memo){
+    for(int i=0;i<=tw;i++){
+      for(int j=0;j<=pow(2,n)-1;j++){
+        hulpTabel[i][j] = -1;
+      }
+    }
+    value = bepaalMaxBedragRecMemoHelper(0,tw);
+  }else{
+    value = bepaalMaxBedragRecHelper(0,tw);
+  }
+  cout <<  "Ticks " << y << endl;
+  return value;
 }  // bepaalMaxBedragRec (memo)
 
 //****************************************************************************

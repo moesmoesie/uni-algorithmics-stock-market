@@ -80,6 +80,9 @@ class Beurs
 
     double krijgBedragPlusRente(double bedrag ,int dag);
 
+    double bepaalMaxBedragRecMemoHelper(int huidigeAandelen,int dag);
+
+
     // Druk de transacties in parameter transacties (koop en verkoop
     // van aandelen) dag voor dag af op het scherm.
     // Bereken ook, uitgaande van startbedrag b0, het resulterende
@@ -103,6 +106,9 @@ class Beurs
 
     double aandelen[MaxN][MaxTw];
     double rente_percentages[MaxTw];
+    double hulpTabel[MaxTw][MaxAs];
+    int y = 0;
+
 };
 
 #endif
