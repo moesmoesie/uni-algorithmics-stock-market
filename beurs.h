@@ -107,8 +107,6 @@ class Beurs
     double aandelen[MaxN][MaxTw];
     double rente_percentages[MaxTw];
     double hulpTabel[MaxTw][MaxAs];
-    int y = 0;
-
 };
 
 #endif

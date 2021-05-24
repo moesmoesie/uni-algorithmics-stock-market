@@ -61,13 +61,31 @@ void Beurs::drukAfInvoer ()
 
 //****************************************************************************
 
-double Beurs::bepaalMaxBedragBU
-         (vector <vector <pair <bool,int> > > &transacties)
-{
-  // TODO: implementeer deze memberfunctie
+double get_max(double i, double j) {
+    return i > j ? i : j;
+}
 
-  return 0.0;
+double Beurs::bepaalMaxBedragBU(vector <vector <pair <bool,int> > > &transacties){
+  int T[tw + 1];
+  T[0] = b0;
 
+  double min_bedrag = T[0];
+  int previousStock = 0;
+  for(int i =1;i<=tw;i++){
+    int stock = -1;
+    for(int j=0;j<pow(2,n);j++){
+      double value = nieuweTotaleBedrag(previousStock,j,i - 1) + T[0];
+      if(value > min_bedrag){
+        min_bedrag = value;
+        stock = j;
+      }
+    }
+    previousStock = stock;
+    T[i] = min_bedrag;
+  }
+
+
+  return T[tw + 1];
 }  // bepaalMaxBedragBU
 
 //****************************************************************************
@@ -89,7 +107,6 @@ double Beurs::nieuweTotaleBedrag(int huidigeAandelen, int nieuweAandelen,int dag
 }
 
 double Beurs::bepaalMaxBedragRecHelper(int huidigeAandelen,int dag){
-  y+=1;
   if(dag == 0){
     double bedrag = b0 + nieuweTotaleBedrag(0,huidigeAandelen,dag);
     if (bedrag < 0){
@@ -116,7 +133,6 @@ double Beurs::bepaalMaxBedragRecHelper(int huidigeAandelen,int dag){
   return besteBedrag;
 }
 double Beurs::bepaalMaxBedragRecMemoHelper(int huidigeAandelen,int dag){  
-  y+=1;
   if(hulpTabel[dag][huidigeAandelen] < 0){
     if(dag == 0){
       double bedrag = b0 + nieuweTotaleBedrag(0,huidigeAandelen,dag);
@@ -145,7 +161,6 @@ double Beurs::krijgBedragPlusRente(double bedrag, int dag){
 
 double Beurs::bepaalMaxBedragRec (bool memo){
   double value;
-  y = 0;
   if(memo){
     for(int i=0;i<=tw;i++){
       for(int j=0;j<=pow(2,n)-1;j++){
@@ -156,7 +171,6 @@ double Beurs::bepaalMaxBedragRec (bool memo){
   }else{
     value = bepaalMaxBedragRecHelper(0,tw);
   }
-  cout <<  "Ticks " << y << endl;
   return value;
 }  // bepaalMaxBedragRec (memo)
 
