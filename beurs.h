@@ -74,9 +74,11 @@ class Beurs
     double bepaalMaxBedragRec (bool memo);
 
     // Helper functie voor bepaalMaxBedragRec
-    double bepaalMaxBedragRecHelper (bool memo,double huidigBedrag,int huidigeAandelen,int dag);
+    double bepaalMaxBedragRecHelper (int huidigeAandelen,int dag);
 
     double nieuweTotaleBedrag(int huidigeAandelen, int nieuweAandelen,int dag);
+
+    double krijgBedragPlusRente(double bedrag ,int dag);
 
     // Druk de transacties in parameter transacties (koop en verkoop
     // van aandelen) dag voor dag af op het scherm.
