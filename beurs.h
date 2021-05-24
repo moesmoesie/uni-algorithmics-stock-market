@@ -99,6 +99,8 @@ class Beurs
     // Return: De winst
     double berekenWinst(int aandeel, int aankoopDag, int verkoopDag);
 
+    double nieuweTotaleBedrag(int huidigeAandelen, int nieuweAandelen, int dag);
+
   private:
     // TODO: uw eigen memberfuncties en -variabelen
 

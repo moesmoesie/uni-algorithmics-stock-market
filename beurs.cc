@@ -60,7 +60,7 @@ void Beurs::drukAfInvoer ()
 //****************************************************************************
 
 pair<int, double> Beurs::AandeelMaxWinst(int aandeel, int aankoopDag){
-    double tempWinst;
+    double tempWinst;s
     int verkoopDag = -1;
     double winst = lowest_double;
 
@@ -77,19 +77,36 @@ pair<int, double> Beurs::AandeelMaxWinst(int aandeel, int aankoopDag){
 
 //****************************************************************************
 
+double Beurs::nieuweTotaleBedrag(int huidigeAandelen, int nieuweAandelen,int dag){
+    bitset<MaxN> a1 = bitset<MaxN>(huidigeAandelen);
+    bitset<MaxN> a2 = bitset<MaxN>(nieuweAandelen);
+    double bedrag = 0;
+    for(int i=0;i<n;i++){
+        if(a1[i] != a2[i]){
+            if(a2[i] == 1){
+                double extra = 1 + (provisie / 100);
+                bedrag -= aandelen[dag][i] * extra;
+            }else{
+                bedrag += aandelen[dag][i] * (1 - (provisie / 100));
+            }
+        }
+    }
+    return bedrag;
+}
+
+//****************************************************************************
+
 double Beurs::berekenWinst(int aandeel, int aankoopDag, int verkoopDag){
     provisie_kosten = aandelen[aandeel][aankoopDag]*(provisie/100);
     double inkoopPrijs = aandelen[aandeel][aankoopDag]+provisie;
     double verkoopPrijs = aandelen[aandeel][verkoopDag]-provisie;
-    double totale_Rente = 0;
     int winst;
 
     for(int dag = aankoopDag; aankoopDag < verkoopDag; aankoopDag++){
         double rente_percentage = rente_percentages[dag];
-        totale_Rente += inkoopPrijs*(rente_percentage/100);
     }
 
-    winst = verkoopPrijs-inkoopPrijs+totale_Rente;
+    winst = verkoopPrijs-inkoopPrijs;
     return winst;
 }
 
@@ -98,10 +115,12 @@ double Beurs::berekenWinst(int aandeel, int aankoopDag, int verkoopDag){
 double Beurs::bepaalMaxBedragBU
          (vector <vector <pair <bool,int> > > &transacties)
 {
+    double bedrag = b0;
+    bedrag
   // TODO: implementeer deze memberfunctie
   for(int aandeel = 0; aandeel < MaxN; aandeel++){
       for(int dag = 0; dag < MaxTw; dag++){
-          cout << "haha" << endl;
+
       }
   }
 
