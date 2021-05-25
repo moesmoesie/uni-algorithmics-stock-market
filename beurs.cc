@@ -67,8 +67,7 @@ double Beurs::bepaalMaxBedragBU(vector <vector <pair <bool,int> > > &transacties
     }
   }
 
-  hulpTabel[0][0] = b0;
-  for (int a = 1; a < pow(2,n); a++){ //base case
+  for (int a = 0; a < pow(2,n); a++){ //base case
     double bedrag = nieuweTotaleBedrag(0,a,0);  
     bedrag+= b0;  
     bedrag= krijgBedragPlusRente(bedrag,0);
