@@ -148,16 +148,16 @@ double Beurs::bepaalMaxBedragRecMemoHelper(int huidigeAandelen,int dag){
         hulpTabel[dag][huidigeAandelen] = bedrag;
       }
     }else{
-    for(int i=0;i<=pow(2,n)-1;i++){
-      double bedrag = bepaalMaxBedragRecMemoHelper(i, dag - 1);
-      if(bedrag != -1){
-        bedrag = krijgBedragPlusRente(bedrag,dag-1);
-        bedrag+= nieuweTotaleBedrag(i,huidigeAandelen,dag);
-        if(bedrag > hulpTabel[dag][huidigeAandelen]){
-            hulpTabel[dag][huidigeAandelen] = bedrag;
+      for(int i=0;i<=pow(2,n)-1;i++){
+        double bedrag = bepaalMaxBedragRecMemoHelper(i, dag - 1);
+        if(bedrag != -1){
+          bedrag = krijgBedragPlusRente(bedrag,dag-1);
+          bedrag+= nieuweTotaleBedrag(i,huidigeAandelen,dag);
+          if(bedrag > hulpTabel[dag][huidigeAandelen]){
+              hulpTabel[dag][huidigeAandelen] = bedrag;
+          }
         }
       }
-    }
     }
   }
   return hulpTabel[dag][huidigeAandelen];
