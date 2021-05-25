@@ -104,7 +104,7 @@ class Beurs
     double provisie,  // provisie op transacties, in procenten.
            b0;  // bedrag op tijdstip 0
 
-    double aandelen[MaxN][MaxTw];
+    double aandelen[MaxTw][MaxN];
     double rente_percentages[MaxTw];
     double hulpTabel[MaxTw][MaxAs];
 };

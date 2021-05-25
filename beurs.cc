@@ -60,32 +60,40 @@ void Beurs::drukAfInvoer ()
 }  // drukAfInvoer
 
 //****************************************************************************
-
-double get_max(double i, double j) {
-    return i > j ? i : j;
-}
-
 double Beurs::bepaalMaxBedragBU(vector <vector <pair <bool,int> > > &transacties){
-  int T[tw + 1];
-  T[0] = b0;
-
-  double min_bedrag = T[0];
-  int previousStock = 0;
-  for(int i =1;i<=tw;i++){
-    int stock = -1;
-    for(int j=0;j<pow(2,n);j++){
-      double value = nieuweTotaleBedrag(previousStock,j,i - 1) + T[0];
-      if(value > min_bedrag){
-        min_bedrag = value;
-        stock = j;
-      }
+  for(int i=0;i<MaxTw;i++){
+    for(int j=0;j<MaxAs;j++){
+      hulpTabel[i][j] = 0;
     }
-    previousStock = stock;
-    T[i] = min_bedrag;
   }
 
-
-  return T[tw + 1];
+  hulpTabel[0][0] = b0;
+  for (int a = 1; a < pow(2,n); a++){ //base case
+    double bedrag = nieuweTotaleBedrag(0,a,0);  
+    bedrag+= b0;  
+    bedrag= krijgBedragPlusRente(bedrag,0);
+    if(bedrag >= 0){
+      hulpTabel[0][a] = bedrag;
+    }
+  }
+  
+  for(int dag = 1; dag < tw+1; dag++){
+    for(int a1 = 0; a1 < pow(2,n); a1++){
+      double besteBedrag = hulpTabel[dag -1][a1];
+      for(int a2=0;a2<pow(2,n);a2++){
+        double bedrag = hulpTabel[dag-1][a2];
+        if(bedrag == 0){
+          continue;
+        }
+        bedrag += nieuweTotaleBedrag(a2,a1,dag);
+        if(bedrag > besteBedrag){
+          besteBedrag = bedrag;
+        }
+      }
+      hulpTabel[dag][a1] = krijgBedragPlusRente(besteBedrag,dag);
+    }
+  }
+  return hulpTabel[tw][0];
 }  // bepaalMaxBedragBU
 
 //****************************************************************************
