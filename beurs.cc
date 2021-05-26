@@ -61,11 +61,7 @@ void Beurs::drukAfInvoer ()
 
 //****************************************************************************
 double Beurs::bepaalMaxBedragBU(vector <vector <pair <bool,int> > > &transacties){
-  for(int i=0;i<MaxTw;i++){
-    for(int j=0;j<MaxAs;j++){
-      hulpTabel[i][j] = 0;
-    }
-  }
+  maakHulpTabelLeeg();
 
   for (int a = 0; a < pow(2,n); a++){ //base case
     double bedrag = nieuweTotaleBedrag(0,a,0);  
@@ -81,7 +77,7 @@ double Beurs::bepaalMaxBedragBU(vector <vector <pair <bool,int> > > &transacties
       double besteBedrag = hulpTabel[dag -1][a1];
       for(int a2=0;a2<pow(2,n);a2++){
         double bedrag = hulpTabel[dag-1][a2];
-        if(bedrag == 0){
+        if(bedrag <= 0 ){
           continue;
         }
         bedrag += nieuweTotaleBedrag(a2,a1,dag);
@@ -167,18 +163,11 @@ double Beurs::krijgBedragPlusRente(double bedrag, int dag){
 }
 
 double Beurs::bepaalMaxBedragRec (bool memo){
-  double value;
   if(memo){
-    for(int i=0;i<=tw;i++){
-      for(int j=0;j<=pow(2,n)-1;j++){
-        hulpTabel[i][j] = -1;
-      }
-    }
-    value = bepaalMaxBedragRecMemoHelper(0,tw);
-  }else{
-    value = bepaalMaxBedragRecHelper(0,tw);
+    maakHulpTabelLeeg();
+    return bepaalMaxBedragRecMemoHelper(0,tw);
   }
-  return value;
+  return bepaalMaxBedragRecHelper(0,tw);
 }  // bepaalMaxBedragRec (memo)
 
 //****************************************************************************
@@ -190,3 +179,11 @@ void Beurs::drukAfTransacties
 
 }  // drukAfTransacties
 
+
+void Beurs::maakHulpTabelLeeg(){
+  for(int i=0;i<=tw;i++){
+    for(int j=0;j<=pow(2,n)-1;j++){
+      hulpTabel[i][j] = -1;
+    }
+  }
+}
