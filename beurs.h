@@ -57,8 +57,7 @@ class Beurs
     //   aandeel i verkocht moet worden.
     // Retourneer:
     // * Het maximale bedrag op dag tw.
-    double bepaalMaxBedragBU
-             (vector <vector <pair <bool,int> > > &transacties);
+    double bepaalMaxBedragBU(vector <vector <pair <bool,int> > > &transacties);
 
     // Bepaal recursief het maximale bedrag dat de belegger aan het eind
     // van dag tw in kas kan hebben (op dat moment heeft hij geen aandelen
@@ -73,20 +72,11 @@ class Beurs
     // * Het maximale bedrag op dag tw.
     double bepaalMaxBedragRec (bool memo);
 
-    // Helper functie voor bepaalMaxBedragRec
+    // Helper functie voor bepaalMaxBedragRec zonder memoization
     double bepaalMaxBedragRecHelper (int huidigeAandelen,int dag);
 
+    // Helper functie voor bepaalMaxBedragRec met memoization
     double bepaalMaxBedragRecMemoHelper(int huidigeAandelen,int dag);
-
-    double nieuweTotaleBedrag(int huidigeAandelen, int nieuweAandelen,int dag);
-
-    double krijgBedragPlusRente(double bedrag ,int dag);
-
-    void maakHulpTabelLeeg();
-
-    void maakRentePercentagesLeeg();
-
-    void maakAandelenLeeg();
 
     // Druk de transacties in parameter transacties (koop en verkoop
     // van aandelen) dag voor dag af op het scherm.
@@ -101,6 +91,26 @@ class Beurs
     //   bij deze instantie.
     void drukAfTransacties (vector <vector <pair <bool,int> > > transacties);
 
+    // Berekent hoeveel je verdient/verliest om van de 
+    // aandelen combinatie 'huidigeAandelen' naar 
+    // de aan aandelen combinatie 'nieuweAandelen' te gaan
+    // op dag 'dag'. De prijst van de aandelen is gebaseerd
+    // op wat in de globale variable 'aandelen' staat.
+    double nieuweTotaleBedrag(int huidigeAandelen, int nieuweAandelen,int dag);
+
+    // Berekent het bedrag wat je krijgt als je de rente percentage
+    // op 'dag' in de lijst 'rentePercentages' bij 'bedrag' optelt. 
+    double krijgBedragPlusRente(double bedrag ,int dag);
+
+    // Maakt alle waardes in de globale variable 'hulpTabel' gelijk aan -1
+    void maakHulpTabelLeeg();
+
+    // Maakt alle waardes in de globale variable 'rentePercentages' gelijk aan 0
+    void maakRentePercentagesLeeg();
+
+    // Maakt alle waardes in de globale variable 'aandelen' gelijk aan 0
+    void maakAandelenLeeg();
+
   private:
     // TODO: uw eigen memberfuncties en -variabelen
 
@@ -110,7 +120,7 @@ class Beurs
            b0;  // bedrag op tijdstip 0
 
     double aandelen[MaxTw][MaxN];
-    double rente_percentages[MaxTw];
+    double rentePercentages[MaxTw];
     double hulpTabel[MaxTw][MaxAs];
 };
 
