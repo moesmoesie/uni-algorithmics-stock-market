@@ -23,15 +23,21 @@ bool Beurs::leesIn (const char* invoernaam){
   if(!file.is_open()){
       return false;
   }
+
   file >> tw >> n >> provisie >> b0;
   if(tw<1 || tw>100 || n<1 || n>8){
     return false;
   }
+
+  maakRentePercentagesLeeg();
+  maakAandelenLeeg();
+
   for(int i=0;i<=tw;i++){
     for(int j=0;j<n;j++){
       file >> aandelen[i][j];
     }
   }
+
   for(int i=0;i<tw;i++){
     file >> rente_percentages[i];
   }
@@ -184,6 +190,20 @@ void Beurs::maakHulpTabelLeeg(){
   for(int i=0;i<=tw;i++){
     for(int j=0;j<=pow(2,n)-1;j++){
       hulpTabel[i][j] = -1;
+    }
+  }
+}
+
+void Beurs::maakRentePercentagesLeeg(){
+  for(int i=0;i<MaxTw;i++){
+    rente_percentages[i]=0;
+  }
+}
+
+void Beurs::maakAandelenLeeg(){
+  for(int i=0;i<MaxTw;i++){
+    for(int j=0;j<MaxAs;j++){
+      aandelen[i][j]=0;
     }
   }
 }

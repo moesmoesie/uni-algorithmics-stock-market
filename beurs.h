@@ -84,6 +84,10 @@ class Beurs
 
     void maakHulpTabelLeeg();
 
+    void maakRentePercentagesLeeg();
+
+    void maakAandelenLeeg();
+
     // Druk de transacties in parameter transacties (koop en verkoop
     // van aandelen) dag voor dag af op het scherm.
     // Bereken ook, uitgaande van startbedrag b0, het resulterende
