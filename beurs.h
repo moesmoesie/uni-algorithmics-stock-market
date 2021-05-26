@@ -111,6 +111,9 @@ class Beurs
     // Maakt alle waardes in de globale variable 'aandelen' gelijk aan 0
     void maakAandelenLeeg();
 
+    vector <vector <pair <bool,int> > > krijgTransacties(int X[MaxTw]);
+
+
   private:
     // TODO: uw eigen memberfuncties en -variabelen
 
